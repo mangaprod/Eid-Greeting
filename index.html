@@ -31,7 +31,6 @@
       cursor: pointer;
     }
   </style>
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -52,7 +51,7 @@
       alert("Error loading the greeting card image. Please make sure 'Eid 2025 BG.jpg' is in the same directory.");
     };
     
-    img.src = "Eid 2025 BG.jpg"; // Your card image
+    img.src = "Eid 2025 BG.jpg"; // Your card image path
 
     img.onload = () => {
       drawCard();
@@ -63,11 +62,36 @@
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       
       if (name) {
-        ctx.font = "bold 30px 'Cairo', sans-serif"; // Bold text
-        ctx.fillStyle = "#372729"; // Dark text color
+        ctx.font = "bold 30px 'Cairo', sans-serif";
         ctx.textAlign = "center";
-        ctx.direction = "rtl";
-        ctx.fillText(name, canvas.width / 2, canvas.height - 70); // Move text up by 10px
+        ctx.direction = "rtl"; // Ensures right-to-left text for Arabic
+
+        // Measure the text width to correctly size the background
+        const textWidth = ctx.measureText(name).width;
+        const textHeight = 30; // Approximate font height (adjust if needed for precise fit)
+        const paddingX = 15; // Horizontal padding around the text
+        const paddingY = 8; // Vertical padding around the text
+
+        // Define the target Y position for the text baseline
+        // This is where the actual text will be drawn.
+        // Adjust this value (e.g., canvas.height - 120, canvas.height - 150)
+        // to move the text up or down on the card.
+        const textBaselineY = canvas.height - 70; 
+
+        // Calculate background rectangle position and dimensions
+        // The rectangle's Y needs to be offset to start above the text baseline
+        const rectX = (canvas.width / 2) - (textWidth / 2) - paddingX;
+        const rectY = textBaselineY - textHeight - paddingY + 5; // +5 to visually center the text vertically within the background
+        const rectWidth = textWidth + (2 * paddingX);
+        const rectHeight = textHeight + (2 * paddingY);
+
+        // Draw the white background rectangle
+        ctx.fillStyle = "white";
+        ctx.fillRect(rectX, rectY, rectWidth, rectHeight);
+
+        // Draw the text
+        ctx.fillStyle = "#372729"; // Dark text color
+        ctx.fillText(name, canvas.width / 2, textBaselineY);
       }
     }
 
