@@ -216,9 +216,22 @@
         // to move the text up or down on the card.
         const textBaselineY = canvas.height - 70; 
 
-        // Draw the text
+        // Draw the name with an outline and shadow so it stays readable on the illustrated card.
+        ctx.save();
+        ctx.lineJoin = "round";
+        ctx.miterLimit = 2;
+        ctx.shadowColor = "rgba(0, 0, 0, 0.38)";
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 3;
+
+        ctx.strokeStyle = "rgba(102, 68, 147, 0.9)";
+        ctx.lineWidth = 8;
+        ctx.strokeText(name, canvas.width / 2, textBaselineY);
+
         ctx.fillStyle = "#fffff2";
         ctx.fillText(name, canvas.width / 2, textBaselineY);
+        ctx.restore();
       }
     }
 
